@@ -44,7 +44,7 @@ loadings
 # Since loadings are the "weights", the rows with the highest magnitudes are
 # target/most influential variables 
 
-loadings[order(abs(loadings$PC1, decreasing = True) ]
+loadings[order(abs(loadings$PC1), decreasing = TRUE), ]
 
 
 # Computing the Proportion of Variance which is the percentage of 
