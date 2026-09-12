@@ -1,36 +1,37 @@
 library(ISLR)
 library(tidyverse)
 
-# Read the file
+# Reading the file. 
 my_data <- read.csv("mstar_data.csv")
 
-# Preview the first few rows
+# Previewing the first few rows of data. 
 head(my_data)
 
-# Getting the means and variances
+# Getting the means and variances.
 apply(my_data, 2, mean)
 apply(my_data, 2, var)
 
-# Standardizing the data, then computing the covariance matrix
+# Standardizing the data to ensure the variables can be equally evaluated, 
+# then computing the covariance matrix. 
 data_std=scale(my_data)
 
 cov_matrix = cov(data_std)
 cov_matrix
 
 # Computing eigenvalues and vectors to be able to see how the variables
-# move and at what scale
+# move and at what scale. 
 eigen_decomp = eigen(cov_matrix)
 Eigenvalues = eigen_decomp$values
 Eigenvectors = eigen_decomp$vectors
 
-#Eigen-proportion
+# Computing Eigen-proportionality 
 Eigenprop = Eigenvalues/sum(Eigenvalues)
 round(Eigenprop,3)
 
 Eigenvectors
 
 # Computing loadings, which is the weight at which variables 
-# contribute to a PC 
+# contribute to a principal component (PC)
 loadings = Eigenvectors %>% 
   data.frame(row.names = colnames(my_data)) %>%
   rename("PC1" = X1, "PC2" = X2, "PC3" = X3, "PC4" = X4,
@@ -42,9 +43,14 @@ loadings
 
 
 # Since loadings are the "weights", the rows with the highest magnitudes are
-# target/most influential variables 
+# target/most influential variables  
+
+# These lines of code below create data frames with the variable names as the rows and PC
+# number as the columns ordered by magnitude from greatest to least.
 
 loadings[order(abs(loadings$PC1), decreasing = TRUE), ]
+loadings[order(abs(loadings$PC2), decreasing = TRUE), ]
+
 
 
 # Computing the Proportion of Variance which is the percentage of 
